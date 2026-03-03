@@ -5,7 +5,9 @@
                 <th>Código</th>
                 <th>Título</th>
                 <th>Género</th>
-                <th></th>
+                <th>
+                    <a href="index.php?page=Mantenimientos-Libros-Formulario&mode=INS&id=0">Nuevo</a>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -14,7 +16,9 @@
                 <td>{{id}}</td>
                 <td>{{titulo}}</td>
                 <td>{{genero}}</td>
-                <td></td>
+                <td>
+                    <a href="index.php?page=Mantenimientos-Libros-Formulario&mode=DSP&id={{id}}">Mostrar</a>
+                </td>
             </tr>
             {{endfor libros}}
         </tbody>

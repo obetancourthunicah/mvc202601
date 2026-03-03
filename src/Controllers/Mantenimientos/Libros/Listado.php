@@ -1,4 +1,7 @@
 <?php
+// CRUD. (Create, Read, Update Delete) 
+//       ( Insert, Select, Update, Delete)
+//       ( INS, DSP, UPD, DEL)
 
 namespace Controllers\Mantenimientos\Libros;
 
