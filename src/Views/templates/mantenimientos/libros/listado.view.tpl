@@ -18,6 +18,10 @@
                 <td>{{genero}}</td>
                 <td>
                     <a href="index.php?page=Mantenimientos-Libros-Formulario&mode=DSP&id={{id}}">Mostrar</a>
+                    <br/>
+                    <a href="index.php?page=Mantenimientos-Libros-Formulario&mode=UPD&id={{id}}">Actualizar</a>
+                    <br/>
+                    <a href="index.php?page=Mantenimientos-Libros-Formulario&mode=DEL&id={{id}}">Eliminar</a>
                 </td>
             </tr>
             {{endfor libros}}

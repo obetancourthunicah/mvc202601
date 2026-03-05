@@ -1,12 +1,13 @@
 <h1>{{modeDsc}}</h1>
 <section class="grid row">
-    <form class="depth-0 offset-3 col-6" action="index.php?page=Mantenimientos_Libros_Formulario" method="POST" >
+    <form class="depth-0 offset-3 col-6" action="index.php?page=Mantenimientos_Libros_Formulario&mode={{mode}}&id={{id}}" method="POST" >
         <div class="row align-center">
             <div class="col-4">
                 <label for="id">Código</label>
             </div>
             <div class="col-8">
-                <input type="text" value="{{id}}" disabled  name="id" id="id"/>
+                <input type="text" value="{{id}}" disabled  name="idux" id="id"/>
+                <input type="hidden" name="id" value="{{id}}" />
             </div>
         </div>
          <div class="row align-center">
