@@ -47,6 +47,8 @@ class Formulario extends PublicController
         Renderizar el formulario.
         */
         $this->LoadPage();
+
+        $this->GenerarViewData();
         Renderer::render("mantenimientos/libros/formulario", $this->viewData);
     }
 
@@ -59,6 +61,35 @@ class Formulario extends PublicController
         $this->id = intval($_GET["id"] ?? '0');
         if ($this->mode !== "INS" && $this->id <= 0) {
             Site::redirectToWithMsg(LIBROS_LISTADO_URL, "Error al cargar formulario, Se requiere Id del Libro");
+        } else {
+            if ($this->mode !== "INS") {
+                $this->CargarDatos();
+            }
         }
+    }
+    private function CargarDatos()
+    {
+        $tmpLibros = LibrosDAO::getLibroById($this->id);
+        if (count($tmpLibros) <= 0) {
+            Site::redirectToWithMsg(LIBROS_LISTADO_URL, "No se encontró el Libro");
+        }
+        $this->titulo = $tmpLibros["titulo"];
+        $this->resumen = $tmpLibros["resumen"];
+        $this->autor = $tmpLibros["autor"];
+        $this->fecha_publicacion = $tmpLibros["fecha_publicacion"];
+        $this->genero = $tmpLibros["genero"];
+        $this->precio = $tmpLibros["precio"];
+    }
+    private function GenerarViewData()
+    {
+        $this->viewData["mode"] = $this->mode;
+        $this->viewData["modeDsc"]  = sprintf($this->modes[$this->mode], $this->id, $this->titulo);
+        $this->viewData["id"] = $this->id;
+        $this->viewData["titulo"] = $this->titulo;
+        $this->viewData["resumen"] = $this->resumen;
+        $this->viewData["autor"] = $this->autor;
+        $this->viewData["fecha_publicacion"] = $this->fecha_publicacion;
+        $this->viewData["genero"] = $this->genero;
+        $this->viewData["precio"] = $this->precio;
     }
 }

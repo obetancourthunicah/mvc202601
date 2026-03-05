@@ -32,4 +32,60 @@ class Libros extends Table
         $param = ["id" => $id];
         return self::obtenerUnRegistro($sqlstr, $param);
     }
+
+    public static function crearLibro(
+        $titulo,
+        $resumen,
+        $autor,
+        $fecha_publicacion,
+        $genero,
+        $precio
+    ): int {
+        $sqlstr = "insert into libros ( titulo, resumen, autor, fecha_publicacion, genero, precio)
+                   values (:titulo, :resumen, :autor, :fecha_publicacion, :genero, :precio);";
+
+        $affectedRow = self::executeNonQuery($sqlstr, [
+            "titulo" => $titulo,
+            "resumen" => $resumen,
+            "autor" => $autor,
+            "fecha_publicacion" => $fecha_publicacion,
+            "genero" => $genero,
+            "precio" => $precio
+        ]);
+        return $affectedRow;
+    }
+
+    public static function actualizarLibro(
+        $id,
+        $titulo,
+        $resumen,
+        $autor,
+        $fecha_publicacion,
+        $genero,
+        $precio
+    ): int {
+        $sqlstr = "update libros set titulo = :titulo, resumen = :resumen, autor = :autor,
+                    fecha_publicacion = :fecha_publicacion, genero = :genero, precio = :precio
+                    where id = :id;";
+
+        $affectedRow = self::executeNonQuery($sqlstr, [
+            "id" => $id,
+            "titulo" => $titulo,
+            "resumen" => $resumen,
+            "autor" => $autor,
+            "fecha_publicacion" => $fecha_publicacion,
+            "genero" => $genero,
+            "precio" => $precio
+        ]);
+        return $affectedRow;
+    }
+
+    public static function eliminarLibro(
+        $id
+    ): int {
+        $sqlstr = "delete from libros where id = :id;";
+
+        $affectedRow = self::executeNonQuery($sqlstr, ["id" => $id]);
+        return $affectedRow;
+    }
 }

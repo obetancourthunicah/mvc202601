@@ -1,4 +1,4 @@
-<h1>Formulario de Libros</h1>
+<h1>{{modeDsc}}</h1>
 <section class="grid row">
     <form class="depth-0 offset-3 col-6" action="index.php?page=Mantenimientos_Libros_Formulario" method="POST" >
         <div class="row align-center">
@@ -60,7 +60,16 @@
         <div class="right">
             <button type="submit" name="btnEnviar">Confirmar</button>
             &nbsp;
-            <button id="cancelar">Cancelar</button>
+            <button id="btnCancelar">Cancelar</button>
         </div>
     </form>
 </section>
+<script>
+    document.addEventListener("DOMContentLoaded", ()=>{
+        document.getElementById("btnCancelar").addEventListener("click", (e)=>{
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.assign("index.php?page=Mantenimientos_Libros_Listado");
+        });
+    });
+</script>
