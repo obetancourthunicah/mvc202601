@@ -9,6 +9,7 @@ use Utilities\Site;
 
 const LIBROS_FORMULARIO_URL = "index.php?page=Mantenimientos-Libros-Formulario";
 const LIBROS_LISTADO_URL = "index.php?page=Mantenimientos-Libros-Listado";
+const XSRF_KEY = "Matenimientos_Libros_Formulario";
 
 class Formulario extends PublicController
 {
@@ -19,6 +20,12 @@ class Formulario extends PublicController
         "DSP" => "Detalle de %s %s",
         "DEL" => "Elminando %s %s"
     ];
+    private array $confirmTooltips = [
+        "INS" => "",
+        "UPD" => "",
+        "DSP" => "",
+        "DEL" => "¿Esta Seguro de Realizar la Eliminación? ¡¡Esto no se puede Revertir!!"
+    ];
 
     private $id;
     private $titulo;
@@ -27,6 +34,8 @@ class Formulario extends PublicController
     private $fecha_publicacion;
     private $genero;
     private $precio;
+
+    private $xsrfToken = '';
 
     private $mode;
 
@@ -125,10 +134,16 @@ class Formulario extends PublicController
         $this->fecha_publicacion = $_POST["fecha_publicacion"] ?? '';
         $this->genero = $_POST["genero"] ?? '';
         $this->precio = $_POST["precio"] ?? '';
+        $this->xsrfToken = $_POST["uuid"] ?? '';
     }
 
     private function ValidarDatos()
     {
+        $sessionToken = $_SESSION[XSRF_KEY] ?? '';
+        if ($this->xsrfToken !== $sessionToken) {
+            Site::redirectToWithMsg(LIBROS_LISTADO_URL, "Error al cargar formulario, Inconsistencia en la Petición");
+        }
+
         $validateId = intval($_GET["id"] ?? '0');
         if ($validateId !== $this->id) {
             return false;
@@ -147,5 +162,16 @@ class Formulario extends PublicController
         $this->viewData["fecha_publicacion"] = $this->fecha_publicacion;
         $this->viewData["genero"] = $this->genero;
         $this->viewData["precio"] = $this->precio;
+        $this->viewData["isReadonly"] = ($this->mode === 'DEL' || $this->mode === 'DSP') ? 'readonly' : '';
+        $this->viewData["hideConfirm"] = $this->mode === 'DSP';
+        $this->viewData["confirmToolTip"] = $this->confirmTooltips[$this->mode];
+        $this->viewData["xsrf_token"] = $this->GenerateXSRFToken();
+    }
+    private function GenerateXSRFToken()
+    {
+        $tmpStr = "libros_formulario" . time() . rand(10000, 99999);
+        $this->xsrfToken =  md5($tmpStr);
+        $_SESSION[XSRF_KEY] = $this->xsrfToken;
+        return $this->xsrfToken;
     }
 }

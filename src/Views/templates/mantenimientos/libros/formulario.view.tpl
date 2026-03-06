@@ -6,8 +6,9 @@
                 <label for="id">Código</label>
             </div>
             <div class="col-8">
-                <input type="text" value="{{id}}" disabled  name="idux" id="id"/>
+                <input type="text" value="{{id}}" disabled  name="idux" id="id" readonly/>
                 <input type="hidden" name="id" value="{{id}}" />
+                <input type="hidden" name="uuid" value="{{xsrf_token}}" />
             </div>
         </div>
          <div class="row align-center">
@@ -15,7 +16,7 @@
                 <label for="titulo">Título</label>
             </div>
             <div class="col-8">
-                <input type="text" name="titulo" id="titulo" value="{{titulo}}" placeholder="Título del Libro" />
+                <input type="text" name="titulo" id="titulo" value="{{titulo}}" placeholder="Título del Libro" {{isReadonly}} />
             </div>
         </div>
         <div class="row align-start">
@@ -23,7 +24,7 @@
                 <label for="resumen">Resumen</label>
             </div>
             <div class="col-8">
-                <textarea id="resumen" name="resumen" placeholder="Resumen del Libro" cols="40" rows="8">{{resumen}}</textarea>
+                <textarea id="resumen" name="resumen" placeholder="Resumen del Libro" cols="40" rows="8" {{isReadonly}}>{{resumen}}</textarea>
             </div>
         </div>
          <div class="row align-center">
@@ -31,7 +32,7 @@
                 <label for="autor">Autor</label>
             </div>
             <div class="col-8">
-                <input type="text" name="autor" id="autor" value="{{autor}}" placeholder="Autor del Libro" />
+                <input type="text" name="autor" id="autor" value="{{autor}}" {{isReadonly}} placeholder="Autor del Libro" />
             </div>
         </div>
          <div class="row align-center">
@@ -39,7 +40,7 @@
                 <label for="fecha_publicacion">Fecha Publicación</label>
             </div>
             <div class="col-8">
-                <input type="text" name="fecha_publicacion" id="fecha_publicacion" value="{{fecha_publicacion}}" placeholder="Publicado en" />
+                <input type="text" name="fecha_publicacion" id="fecha_publicacion" {{isReadonly}} value="{{fecha_publicacion}}" placeholder="Publicado en" />
             </div>
         </div>
         <div class="row align-center">
@@ -47,7 +48,7 @@
                 <label for="genero">Género</label>
             </div>
             <div class="col-8">
-                <input type="text" name="genero" id="genero" value="{{genero}}" placeholder="Generó Literario del Libro" />
+                <input type="text" name="genero" id="genero" value="{{genero}}" {{isReadonly}} placeholder="Generó Literario del Libro" />
             </div>
         </div>
         <div class="row align-center">
@@ -55,11 +56,18 @@
                 <label for="precio">Precio</label>
             </div>
             <div class="col-8">
-                <input type="text" name="precio" id="precio" value="{{precio}}" placeholder="Precio del Libro" />
+                <input type="text" name="precio" id="precio" value="{{precio}}" {{isReadonly}} placeholder="Precio del Libro" />
             </div>
         </div>
+        {{if confirmToolTip}}
+            <div class="error">
+                {{confirmToolTip}}
+            </div>
+        {{endif confirmToolTip}}
         <div class="right">
+            {{ifnot hideConfirm}}
             <button type="submit" name="btnEnviar">Confirmar</button>
+            {{endifnot hideConfirm}}
             &nbsp;
             <button id="btnCancelar">Cancelar</button>
         </div>
