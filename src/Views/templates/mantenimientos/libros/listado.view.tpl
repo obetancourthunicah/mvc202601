@@ -6,7 +6,9 @@
                 <th>Título</th>
                 <th>Género</th>
                 <th>
+                    {{if showNew}}
                     <a href="index.php?page=Mantenimientos-Libros-Formulario&mode=INS&id=0">Nuevo</a>
+                    {{endif showNew}}
                 </th>
             </tr>
         </thead>
@@ -18,10 +20,14 @@
                 <td>{{genero}}</td>
                 <td>
                     <a href="index.php?page=Mantenimientos-Libros-Formulario&mode=DSP&id={{id}}">Mostrar</a>
+                    {{if ~showUpdate}}
                     <br/>
                     <a href="index.php?page=Mantenimientos-Libros-Formulario&mode=UPD&id={{id}}">Actualizar</a>
+                    {{endif ~showUpdate}}
+                    {{if ~showDelete}}
                     <br/>
                     <a href="index.php?page=Mantenimientos-Libros-Formulario&mode=DEL&id={{id}}">Eliminar</a>
+                    {{endif ~showDelete}}
                 </td>
             </tr>
             {{endfor libros}}

@@ -5,14 +5,14 @@
 
 namespace Controllers\Mantenimientos\Libros;
 
-use Controllers\PublicController;
+use Controllers\PrivateController;
 use Views\Renderer;
 
 use Dao\Mantenimientos\Libros as LibrosDAO;
 
 const LIST_VIEW_TEMPLATE = "mantenimientos/libros/listado";
 
-class Listado extends PublicController
+class Listado extends PrivateController
 {
 
     private array $librosList = [];
@@ -25,7 +25,10 @@ class Listado extends PublicController
     private function prepareViewData()
     {
         return [
-            "libros" => $this->librosList
+            "libros" => $this->librosList,
+            "showNew" => $this->isFeatureAutorized("libros_listado_INS"),
+            "showUpdate" => $this->isFeatureAutorized("libros_listado_UDP"),
+            "showDelete" => $this->isFeatureAutorized("libros_listado_DEL")
         ];
     }
 }

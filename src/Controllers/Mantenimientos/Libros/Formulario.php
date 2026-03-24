@@ -3,15 +3,16 @@
 namespace Controllers\Mantenimientos\Libros;
 
 use Dao\Mantenimientos\Libros as LibrosDAO;
-use Controllers\PublicController;
+use Controllers\PrivateController;
 use Views\Renderer;
 use Utilities\Site;
+use Controllers\PrivateNoAuthException;
 
 const LIBROS_FORMULARIO_URL = "index.php?page=Mantenimientos-Libros-Formulario";
 const LIBROS_LISTADO_URL = "index.php?page=Mantenimientos-Libros-Listado";
 const XSRF_KEY = "Matenimientos_Libros_Formulario";
 
-class Formulario extends PublicController
+class Formulario extends PrivateController
 {
     private array $viewData = [];
     private array $modes = [
@@ -19,6 +20,11 @@ class Formulario extends PublicController
         "UPD" => "Actualizar %s %s",
         "DSP" => "Detalle de %s %s",
         "DEL" => "Elminando %s %s"
+    ];
+    private array $accessControl = [
+        "INS" => "libros_listado_INS",
+        "UPD" => "libros_listado_UDP",
+        "DEL" => "libros_listado_DEL",
     ];
     private array $confirmTooltips = [
         "INS" => "",
@@ -101,6 +107,9 @@ class Formulario extends PublicController
         $this->mode = $_GET["mode"] ?? '';
         if (!isset($this->modes[$this->mode])) {
             Site::redirectToWithMsg(LIBROS_LISTADO_URL, "Error al cargar formulario, Intente de nuevo");
+        }
+        if (isset($this->accessControl[$this->mode]) && !$this->isFeatureAutorized($this->accessControl[$this->mode])) {
+            throw new PrivateNoAuthException();
         }
         $this->id = intval($_GET["id"] ?? '0');
         if ($this->mode !== "INS" && $this->id <= 0) {

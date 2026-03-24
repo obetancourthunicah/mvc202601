@@ -16,6 +16,11 @@
       "id":"Menu_PaymentCheckout",
       "nav_url": "index.php?page=Checkout_Checkout",
       "nav_label": "Carretilla de Compra"
+    },
+    {
+      "id":"Menu_Mantenimiento_Libros",
+      "nav_url": "index.php?page=Mantenimientos_Libros_Listado",
+      "nav_label": "Mantenimiento de Libros"
     }
   ]
 }
